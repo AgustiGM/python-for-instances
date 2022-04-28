@@ -1,27 +1,44 @@
+import argparse
 import os
+import csv
 
 
-def format_city_instance(city_info, city_slots):
-    result = '(' + city_info[0] + ' of City\n'
-    for i in range(len(city_info)):
+def format_instance(instance_info, class_slots):
+    result = '(' + instance_info[0] + ' of ' + class_slots[0] + '\n'
+    for i in range(len(instance_info)):
         if i > 0:
-            if type(city_info[i]) is list:
+            val = instance_info[i].split(';')
+            if len(val) > 1:
                 aux = ''
-                for j in range(len(city_info[i])):
-                    aux += city_info[i][j] + ' '
-                result += '(' + city_slots[i] + ' ' + aux + ')\n'
+                for j in range(len(val)):
+                    aux += val[j] + ' '
+                result += '(' + class_slots[i] + ' ' + aux + ')\n'
             else:
-                result += '(' + city_slots[i] + ' ' + city_info[i] + ')\n'
+                result += '(' + class_slots[i] + ' ' + val[0] + ')\n'
 
     result += ')'
     return result
 
 
-city_info = ['Mataro', 'Spain', ['Sagrada_Familia', 'La_Boqueria']]
-city_slots = ['City', 'is-in', 'has-access-to']
+parser = argparse.ArgumentParser(description="Transform a CSV file with data to CLIPS code for instance creation")
+parser.add_argument('--file', metavar='Files', nargs='+', help="files to be processed")
+args = parser.parse_args()
 
-res = format_city_instance(city_info, city_slots)
-definstance = '(definstances cities\n'
-definstance += res
-definstance += ')'
-print(definstance)
+current_path = os.getcwd() + os.sep
+
+file_list = args['file']
+
+for file in file_list:
+    info_to_print = ''
+    with open(current_path+file, newline='') as csvfile:
+        instance_reader = csv.reader(csvfile)
+        slots = instance_reader.__next__()
+        info_to_print += '(definstances ' + file[:-4] + '\n'
+        for instance in instance_reader:
+            info_to_print += format_instance(instance, slots)
+        info_to_print += ')'
+    with open(file[:-4] + '.clp', 'w') as output_:
+        print(info_to_print, file=output_)
+
+
+
