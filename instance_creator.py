@@ -1,6 +1,7 @@
 import argparse
 import os
 import csv
+import sys
 
 
 def format_instance(instance_info, class_slots):
@@ -21,12 +22,17 @@ def format_instance(instance_info, class_slots):
 
 
 parser = argparse.ArgumentParser(description="Transform a CSV file with data to CLIPS code for instance creation")
-parser.add_argument('--file', metavar='Files', nargs='+', help="files to be processed")
+parser.add_argument('--file', metavar='File', nargs='+', help="files to be processed")
 args = parser.parse_args()
+
 
 current_path = os.getcwd() + os.sep
 
-file_list = args['file']
+file_list = args.file
+if file_list is None:
+    parser.print_help()
+    sys.exit(2)
+
 
 for file in file_list:
     info_to_print = ''
