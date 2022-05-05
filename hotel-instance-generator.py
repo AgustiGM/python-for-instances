@@ -26,7 +26,7 @@ with open("animal_list.txt", 'r') as file:
     for line in file:
         animal_list.append(line.strip('\n'))
 
-city_names = ['Barcelona', 'Berlin', 'Paris', 'Rome']
+city_names = ['Barcelona', 'Berlin', 'Paris', 'Munich', 'Cologne', 'Stuttgart']
 headers = ['Lodging', 'Lodging_type', 'located-at', 'Cost_person_night', 'Quality', 'Room_sizes']
 
 quality_distribution = []
@@ -58,5 +58,5 @@ for city in city_names:
 
 with open('hotels.csv', 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
-    writer.writerow(headers, )
+    writer.writerow(headers)
     writer.writerows(info)

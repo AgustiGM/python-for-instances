@@ -12,10 +12,16 @@ def format_instance(instance_info, class_slots):
             if len(val) > 1:
                 aux = ''
                 for j in range(len(val)):
-                    aux += val[j] + ' '
+                    if class_slots[i][0].islower():
+                        aux += '(symbol-to-instance-name ' + val[j] + ') '
+                    else:
+                        aux += val[j] + ' '
                 result += '(' + class_slots[i] + ' ' + aux + ')\n'
             else:
-                result += '(' + class_slots[i] + ' ' + val[0] + ')\n'
+                if class_slots[i][0].islower():
+                    result += '(' + class_slots[i] + ' (symbol-to-instance-name ' + val[0] + '))\n'
+                else:
+                    result += '(' + class_slots[i] + ' ' + val[0] + ')\n'
 
     result += ')'
     return result
