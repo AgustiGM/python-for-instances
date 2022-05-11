@@ -5,7 +5,7 @@ import sys
 
 
 def format_instance(instance_info, class_slots):
-    result = '(' + instance_info[0] + ' of ' + class_slots[0] + '\n'
+    result = f'({instance_info[0]} of {class_slots[0]} \n'
     for i in range(len(instance_info)):
         if i > 0:
             val = instance_info[i].split(';')
@@ -13,15 +13,15 @@ def format_instance(instance_info, class_slots):
                 aux = ''
                 for j in range(len(val)):
                     if class_slots[i][0].islower():
-                        aux += '(symbol-to-instance-name ' + val[j] + ') '
+                        aux += f'(symbol-to-instance-name {val[j]}) '
                     else:
-                        aux += val[j] + ' '
-                result += '(' + class_slots[i] + ' ' + aux + ')\n'
+                        aux += f'{val[j]} '
+                result += f'({class_slots[i]} {aux})\n'
             else:
                 if class_slots[i][0].islower():
-                    result += '(' + class_slots[i] + ' (symbol-to-instance-name ' + val[0] + '))\n'
+                    result += f'({class_slots[i]} (symbol-to-instance-name {val[0]}))\n'
                 else:
-                    result += '(' + class_slots[i] + ' ' + val[0] + ')\n'
+                    result += f'({class_slots[i]} {val[0]})\n'
 
     result += ')'
     return result
@@ -45,7 +45,7 @@ for file in file_list:
     with open(current_path+file, newline='') as csvfile:
         instance_reader = csv.reader(csvfile)
         slots = instance_reader.__next__()
-        info_to_print += '(definstances ' + file[:-4] + '\n'
+        info_to_print += f'(definstances {file[:-4]} \n'
         for instance in instance_reader:
             info_to_print += format_instance(instance, slots)
         info_to_print += ')'

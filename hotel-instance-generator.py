@@ -26,7 +26,7 @@ with open("animal_list.txt", 'r') as file:
     for line in file:
         animal_list.append(line.strip('\n'))
 
-city_names = ['Barcelona', 'Berlin', 'Paris', 'Munich', 'Cologne', 'Stuttgart']
+city_names = ['Rome', 'London', 'Edinburgh', 'Barcelona', 'Lisbon', 'Paris', 'Athens', 'Reykjavik', 'Berlin', 'Dublin']
 headers = ['Lodging', 'Lodging_type', 'located-at', 'Cost_person_night', 'Quality', 'Room_sizes']
 
 quality_distribution = []
