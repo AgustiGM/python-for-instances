@@ -1,7 +1,6 @@
-import json
+import csv
 import random
 from random import Random
-import csv
 
 
 def get_cost(category):
@@ -22,7 +21,7 @@ def get_cost(category):
 
 
 animal_list = []
-with open("animal_list.txt", 'r') as file:
+with open("../../animal_list.txt", 'r') as file:
     for line in file:
         animal_list.append(line.strip('\n'))
 
@@ -56,7 +55,7 @@ for city in city_names:
         hotel_info = (hotel_names[i], hotel_categories[i], city, cost, permutation[i], '1;2;3')
         info.append(hotel_info)
 
-with open('hotels.csv', 'w', newline='', encoding='utf-8') as file:
+with open('../../hotels.csv', 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(headers)
     writer.writerows(info)
