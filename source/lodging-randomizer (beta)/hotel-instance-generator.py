@@ -21,12 +21,15 @@ def get_cost(category):
 
 
 animal_list = []
-with open("../../animal_list.txt", 'r') as file:
+with open("animal_list.txt", 'r') as file:
     for line in file:
         animal_list.append(line.strip('\n'))
 
-city_names = ['Rome', 'London', 'Edinburgh', 'Barcelona', 'Lisbon', 'Paris', 'Athens', 'Reykjavik', 'Berlin', 'Dublin']
-headers = ['Lodging', 'Lodging_type', 'located-at', 'Cost_person_night', 'Quality', 'Room_sizes']
+with open('city_list.txt', 'r', newline='') as file:
+    line = file.__next__()
+    line.strip('\n')
+    city_names = line.split(',')
+headers = ['Lodging', 'Lodging_type', 'located-at', 'Cost_person_night', 'Quality', 'Room_sizes', 'Kid_friendly']
 
 quality_distribution = []
 for i in range(5):
@@ -51,11 +54,20 @@ for city in city_names:
 
     permutation = random.sample(quality_distribution, len(quality_distribution))
     for i in range(len(permutation)):
+        rand = Random()
+        number = rand.randint(0, 15498721)
         cost = get_cost(permutation[i])
-        hotel_info = (hotel_names[i], hotel_categories[i], city, cost, permutation[i], '1;2;3')
+        kid_friendly = 0 == number % 2
+        if 'hostel' in hotel_categories[i]:
+            kid_friendly = False
+        if 'apartment' in hotel_categories[i]:
+            kid_friendly = True
+        if 'rural' in hotel_categories[i]:
+            kid_friendly = True
+        hotel_info = (hotel_names[i], hotel_categories[i], city, cost, permutation[i], '1;2;3', kid_friendly)
         info.append(hotel_info)
 
-with open('../../hotels.csv', 'w', newline='', encoding='utf-8') as file:
+with open('hotels.csv', 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(headers)
     writer.writerows(info)

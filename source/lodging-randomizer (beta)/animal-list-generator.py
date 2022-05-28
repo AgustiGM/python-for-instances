@@ -9,6 +9,6 @@ for element in data_set['results']:
     animal_name = name.replace(" ", "_")
     animal_list.append(animal_name)
 
-with open("../../animal_list.txt", 'w') as file:
+with open("animal_list.txt", 'w') as file:
     for animal in animal_list:
         print(animal, file=file)

@@ -42,14 +42,14 @@ if file_list is None:
 
 for file in file_list:
     info_to_print = ''
-    with open(current_path+file, newline='') as csvfile:
+    with open(current_path+file, newline='',encoding='utf-8') as csvfile:
         instance_reader = csv.reader(csvfile)
         slots = instance_reader.__next__()
         info_to_print += f'(definstances {file[:-4]} \n'
         for instance in instance_reader:
             info_to_print += format_instance(instance, slots)
         info_to_print += ')'
-    with open(file[:-4] + '.clp', 'w') as output_:
+    with open(file[:-4] + '.clp', 'w', encoding='utf-8') as output_:
         print(info_to_print, file=output_)
 
 
